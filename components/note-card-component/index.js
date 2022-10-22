@@ -1,5 +1,5 @@
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -9,10 +9,10 @@ import styles from './index.module.css'
 
 
 
-export default function NoteCard(){
+export default function NoteCard(props){
 
     // the content of the Item
-    const [note, setNote] = useState({title: "default title", body: "default body"})
+    const [note, setNote] = useState(props.noteContent)
 
     // behavioral states
     const [isNoteBeingEdited, setEditState] = useState(false)
@@ -22,8 +22,8 @@ export default function NoteCard(){
 
     const editNote = ()=>{setEditState(true)}
     // const stopEditing = ()=> {setEditState(false)}
-    
 
+    
     
 
     return (

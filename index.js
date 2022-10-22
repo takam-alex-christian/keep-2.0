@@ -38,9 +38,19 @@ nextApp.prepare().then(()=>{
     })
 
     // add a new note to database
-    expressApp.post("/note", (req, res)=>{
-        // if(req.title)
-        // const newNote = Note()
+    expressApp.post("/notes", (req, res)=>{
+        
+
+        if(req.body.title && req.body.body) {
+            const noteDate = Date.now().toString();
+            const newNote = new Note({title: req.body.title, body: req.body.body, date: noteDate});
+            
+            newNote.save(()=>{
+                Note.findOne({date: noteDate}, (err, note)=>{
+                    if(!err) res.json({message: "success", note: note});
+                })
+            })    
+        }
     })
 
 
