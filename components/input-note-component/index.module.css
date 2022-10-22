@@ -1,0 +1,53 @@
+
+
+/*  */
+.inputNoteContainer{
+    display: flex;
+    flex-direction: column;
+    /* background-color: red; */
+}
+
+.inputNoteContainer .formContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.5rem;
+}
+
+ .titleContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.titleContainer .titleInput{
+    border-radius: 0.5rem;
+    border: 1px solid #dfdfdf;
+    height: 2rem;
+}
+
+.bodyContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.bodyContainer .bodyInput{
+    resize: none;
+    border-radius: 0.5rem;
+    border: 1px solid #dfdfdf;
+    height: 4rem;
+}
+
+.buttonContainer{
+    display: flex;
+    flex-direction: row;
+    gap:0.5rem;
+}
+
+.buttonContainer button{
+    border-radius: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+    border: none;
+}
+
+
