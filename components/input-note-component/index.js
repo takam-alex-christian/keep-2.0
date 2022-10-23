@@ -51,16 +51,19 @@ export default function InputNote(props) {
             .then(result => {
 
                 // if node is added successfully
-                if(result.message && result.message === 'success'){
-                    
-                    props.onNoteAdded((prev)=>{
+                if (result.message && result.message === 'success') {
+
+                    props.onNoteAdded((prev) => {
                         // let's reverse the order of the added notes array
-                        
+
                         prev.unshift(result.note);
-                        
+
                         return [...prev];
                     })
+                    setNoteContent({ title: "", body: "" })
                     console.log("node added successfully")
+
+
                 }
 
             })
@@ -79,11 +82,11 @@ export default function InputNote(props) {
                 <div className={styles.formContainer}>
 
                     <div className={styles.titleContainer}>
-                        <input onChange={onTitleChange} className={styles.titleInput} name="title" type="text" value={noteContent.title} />
+                        <input onChange={onTitleChange} className={styles.titleInput} name="title" type="text" value={noteContent.title} placeholder="Title here" />
                     </div>
 
                     <div className={styles.bodyContainer}>
-                        <textarea onChange={onBodyChange} className={styles.bodyInput} name="body" value={noteContent.body} />
+                        <textarea onChange={onBodyChange} className={styles.bodyInput} name="body" value={noteContent.body} placeholder="Take a note" />
                     </div>
 
                     <div className={styles.buttonContainer}>

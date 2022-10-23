@@ -31,9 +31,6 @@ nextApp.prepare().then(()=>{
 
     // getting notes
     expressApp.get("/notes", (req, res)=>{
-        // Note.find({}, (err, docs)=>{
-        //     res.json(docs);
-        // })
 
         Note.find({}).limit(10).sort({date: -1}).exec((err, docs)=>{
             res.json(docs);
@@ -55,6 +52,23 @@ nextApp.prepare().then(()=>{
                 })
             })    
         }
+    })
+
+    // delete a note from the database
+    expressApp.delete("/notes", (req, res)=>{
+        Note.findByIdAndDelete(req.body._id, (err, doc)=>{
+            if(!err){
+                res.json({message: "success"})
+            }
+        })
+    
+    })
+
+    // update note
+    expressApp.put("/notes", (req, res)=>{
+        Note.findByIdAndUpdate(req.body._id, {$set: {title: req.body.title, body: req.body.body}}, (err, doc)=>{
+            res.json({message: "success"})
+        })
     })
 
 
