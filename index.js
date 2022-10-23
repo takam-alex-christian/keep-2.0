@@ -31,7 +31,11 @@ nextApp.prepare().then(()=>{
 
     // getting notes
     expressApp.get("/notes", (req, res)=>{
-        Note.find({}, (err, docs)=>{
+        // Note.find({}, (err, docs)=>{
+        //     res.json(docs);
+        // })
+
+        Note.find({}).limit(10).sort({date: -1}).exec((err, docs)=>{
             res.json(docs);
         })
 

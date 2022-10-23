@@ -52,8 +52,13 @@ export default function InputNote(props) {
 
                 // if node is added successfully
                 if(result.message && result.message === 'success'){
+                    
                     props.onNoteAdded((prev)=>{
-                        return [...prev, result.note];
+                        // let's reverse the order of the added notes array
+                        
+                        prev.unshift(result.note);
+                        
+                        return [...prev];
                     })
                     console.log("node added successfully")
                 }

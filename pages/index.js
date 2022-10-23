@@ -35,12 +35,14 @@ export default function keepHome() {
 
     return (
         <div className={"container"}>
-            <InputNote onNoteAdded={setLocalNotes} />
+            <InputNote onNoteAdded={setAddedNotes} />
 
             <div className={"notesContainer"}>
-                
-                {localNotes.map((note, noteIndex) => {
-                    return (<NoteCard key={noteIndex} noteContent={note} />)
+                {addedNotes.length>0 && addedNotes.map((note)=>{
+                    return(<NoteCard key={note._id} noteContent={note} />)
+                })}
+                {localNotes.map((note) => {
+                    return (<NoteCard key={note._id} noteContent={note} />)
                 })}
             </div>
 
