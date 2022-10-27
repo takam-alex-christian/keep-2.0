@@ -1,6 +1,9 @@
 
 import { useEffect, useState } from 'react'
 
+// tmp
+import { ContentBlock, Editor, EditorState } from 'draft-js'
+// import ''
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faClose, faPen, faFloppyDisk } from "@fortawesome/free-solid-svg-icons"
@@ -14,6 +17,14 @@ export default function NoteCard(props) {
     // the content of the Item
     const [note, setNote] = useState(props.noteContent)
 
+    // tmp states for editor
+    const [bodyEditorState, setBodyEditorState ] = useState(()=> EditorState.createEmpty())
+
+
+
+    // should show card buttons
+    const [shouldShowButtons, setShowButtons] = useState(false)
+
     // behavioral states
     const [isNoteBeingEdited, setEditState] = useState(false)
 
@@ -21,8 +32,14 @@ export default function NoteCard(props) {
     const [isNoteDeleted, setNoteDeleted] = useState(false);
 
 
+    const onCardHover = () => { setShowButtons(true) }
+    const onCardOut = () => { setShowButtons(false) }
+
     const onTitleChange = (e) => { setNote((prev) => { return { ...prev, title: e.target.value } }) }
-    const onBodyChange = (e) => { setNote((prev) => { return { ...prev, body: e.target.value } }) }
+    
+    // works with the text area implementation
+    // const onBodyChange = (e) => { setNote((prev) => { return { ...prev, body: e.target.value } }) }
+
 
     const editNote = () => {
 
@@ -48,7 +65,7 @@ export default function NoteCard(props) {
                 .then(response => response.json())
                 .then(result => {
                     // we can activate a visual alert here
-                    
+
                     //we stop editing the note 
                     setEditState(false);
 
@@ -93,26 +110,46 @@ export default function NoteCard(props) {
 
     }
 
+    // on body div input
+    const onBodyInput = (e)=>{
+        // console.log("bodyHtml has changed: ", e);
+        setNote((prev)=>{
+            return {...prev, body: document.getElementById(note._id).innerText}
+        })
+    }
+
+
+    useEffect(()=>{
+        document.getElementById(note._id).innerText = note.body;
+    },[])
+
+
+    
 
 
     return (
 
         <>
-            {!isNoteDeleted && <div className={styles.noteCardContainer}>
+            {!isNoteDeleted && <div className={styles.noteCardContainer} onMouseOver={onCardHover} onMouseOut={onCardOut}>
                 <div className={styles.titleContainer}>
                     <input type="text" className={styles.cardTitle} readOnly={!isNoteBeingEdited} onChange={onTitleChange} value={note.title} />
                 </div>
                 <div className={styles.bodyContainer}>
-                    <textarea className={styles.cardBody} readOnly={!isNoteBeingEdited} onChange={onBodyChange} value={note.body} />
+                    {/* <textarea  className={styles.cardBody} readOnly={!isNoteBeingEdited} onChange={onBodyChange} value={note.body} /> */}
+                    <div id={note._id} onInput={onBodyInput} contentEditable={isNoteBeingEdited} suppressContentEditableWarning={true}>
+                        
+                    </div>
                 </div>
-                <div className={styles.cardButtons}>
-                    <button onClick={editNote}>
-                        <FontAwesomeIcon icon={ isNoteBeingEdited? faFloppyDisk: faPen} />
-                    </button>
-                    <button onClick={onDelete}>
-                        <FontAwesomeIcon icon={faClose} />
-                    </button>
-                </div>
+                {shouldShowButtons &&
+                    <div className={styles.cardButtons}>
+                        <button onClick={editNote}>
+                            <FontAwesomeIcon icon={isNoteBeingEdited ? faFloppyDisk : faPen} />
+                        </button>
+                        <button onClick={onDelete}>
+                            <FontAwesomeIcon icon={faClose} />
+                        </button>
+                    </div>
+                }
             </div>
             }
         </>

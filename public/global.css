@@ -8,10 +8,10 @@
 }
 
 .notesContainer{
-    /* display: flex;
-    flex-wrap: wrap; */
-
-    /* where i stoped */
+    margin-top: 2rem;
+    gap:1rem;
+    display: flex;
+    flex-direction: column;
 }
 
 * {
