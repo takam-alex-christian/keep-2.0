@@ -1,0 +1,53 @@
+.tagEditorContainer {
+    display: flex;
+
+}
+
+.tagListContainer {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.tagInputContainer {
+    padding: 0 0.5rem;
+
+}
+
+.tagComponent {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    background-color: #33333344;
+    height: 1.5rem;
+    /* padding: 0.25rem 1rem; */
+    border-radius: 0.75rem;
+
+    font-size: 0.75rem;
+
+    min-width: 1rem;
+
+    padding: 0 0.5rem;
+
+}
+
+.tagButtonContainer {}
+.tagInputField{
+    height: 1.5rem;
+    /* border-radius:7.5rem; */
+    padding: 0;
+    margin: 0;
+    border:none;
+}
+
+.tagButtonContainer>button {
+    display: flex;
+    width: 1.5rem;
+    height: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 25%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #ffffffbb;
+}

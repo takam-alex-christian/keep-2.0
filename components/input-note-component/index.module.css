@@ -23,6 +23,7 @@
     border-radius: 0.5rem;
     border: 1px solid #dfdfdf;
     height: 2rem;
+    padding: 0 1rem;
 }
 
 .bodyContainer{
@@ -35,6 +36,7 @@
     border-radius: 0.5rem;
     border: 1px solid #dfdfdf;
     height: 4rem;
+    padding: 0.5rem 1rem;
 }
 
 .buttonContainer{

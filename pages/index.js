@@ -35,6 +35,12 @@ export default function keepHome() {
 
     return (
         <div className={"container"}>
+            <div className="">
+                <h3>
+                    MyNotes
+                </h3>
+            </div>
+
             <InputNote onNoteAdded={setAddedNotes} />
 
             <div className={"notesContainer"}>

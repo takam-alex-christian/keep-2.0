@@ -1,10 +1,13 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPlus, faArrowsRotate } from "@fortawesome/free-solid-svg-icons"
+import { faPlus, faArrowsRotate, faClose } from "@fortawesome/free-solid-svg-icons"
 
 // importing custom module styles
 import styles from './index.module.css'
 import { useState } from "react"
+
+// custom components
+import { TagEditor } from './tag-editor'
 
 export default function InputNote(props) {
 
@@ -16,6 +19,15 @@ export default function InputNote(props) {
 
     // what was the response of the backend to the note?
     const [noteResponse, setNoteResponse] = useState({});
+
+
+
+    // tags states
+    const [tagList, setTagList] = useState([]);
+
+
+
+
 
     const onTitleChange = (e) => {
         setNoteContent((prev) => {
@@ -100,6 +112,10 @@ export default function InputNote(props) {
                 </div>
 
             </form>
+
+         {/* temp, subjected to future edit. unsafe */}
+         {/* <TagEditor /> */}
+
         </div>
     )
 }

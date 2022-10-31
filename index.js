@@ -26,7 +26,7 @@ nextApp.prepare().then(()=>{
     mongoose.connect(process.env.MONGODB_URI);
 
     // model
-    const noteSchema = new mongoose.Schema({title: String, body: String, date: String});
+    const noteSchema = new mongoose.Schema({title: String, body: String, date: String, tags: Array});
     const Note = mongoose.model("Note", noteSchema);
 
     // getting notes
@@ -41,17 +41,25 @@ nextApp.prepare().then(()=>{
     // add a new note to database
     expressApp.post("/notes", (req, res)=>{
         
-
+        
         if(req.body.title && req.body.body) {
+
             const noteDate = Date.now().toString();
-            const newNote = new Note({title: req.body.title, body: req.body.body, date: noteDate});
             
+            // we populate the tags if there are in the request
+            // i expect tags to be stringified
+            const tags = req.body.tags && req.body.tags.length > 0 ? req.body.tags : []
+
+            const newNote = new Note({title: req.body.title, body: req.body.body, tags: tags, date: noteDate});
+            
+
             newNote.save(()=>{
                 Note.findOne({date: noteDate}, (err, note)=>{
                     if(!err) res.json({message: "success", note: note});
                 })
             })    
         }
+
     })
 
     // delete a note from the database

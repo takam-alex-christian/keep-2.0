@@ -53,6 +53,8 @@ export default function NoteCard(props) {
             urlencoded.append("_id", note._id);
             urlencoded.append("title", note.title);
             urlencoded.append("body", note.body);
+            // just not needed yet
+            // urlencoded.append("tags", note.tags? note.tags : [])
 
             let requestOptions = {
                 method: 'PUT',
@@ -149,6 +151,18 @@ export default function NoteCard(props) {
                             <FontAwesomeIcon icon={faClose} />
                         </button>
                     </div>
+                }
+                { note.tags.length > 0 && 
+                    
+                    <div className={""}>
+                        {JSON.parse( note.tags).map((tag, index)=>{
+                            return (
+                            <div key={index} className=''>
+                                {tag}
+                            </div>)
+                        })}
+                    </div>
+
                 }
             </div>
             }
