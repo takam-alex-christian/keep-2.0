@@ -1,7 +1,7 @@
 import { useState, useEffect, useId } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { faClose, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import styles from './tag-editor.module.css'
 
@@ -16,19 +16,24 @@ function TagEditor() {
     // tag input field state
     const [currentTagContent, setCurrentTagContent] = useState("")
 
-    const onTagInput = (e) => {
+    const onTagChange = (e) => {
         setCurrentTagContent(e.target.value);
     }
 
-    const onFormSubmit = (e) => {
+    const onKeyDown = (e) => {
 
-        e.preventDefault();
+        if(e.key.toLowerCase() == 'enter' || e.key.toLowerCase() == 'tab'){
+            e.preventDefault()
+            setTagList((prev) => {
+                return [...prev, currentTagContent]
+            })
 
-        setTagList((prev) => {
-            return [...prev, currentTagContent]
-        })
+            setCurrentTagContent("")
+        }
 
-        setCurrentTagContent("")
+        
+
+        
 
     }
 
@@ -50,11 +55,13 @@ function TagEditor() {
 
                 <div className={` ${styles.tagInputContainer}`}>
                     {/* the place holder */}
-                    <form onSubmit={onFormSubmit}>
+                    {/* <form onSubmit={onFormSubmit}> */}
 
-                        <input id={inputId} className={`${styles.tagInputField}`} type={"text"} onInput={onTagInput} value={currentTagContent} placeholder={"Add Tag ..."} />
-
-                    </form>
+                        <input id={inputId} className={`${styles.tagInputField}`} type={"text"} onChange={onTagChange} value={currentTagContent} placeholder={"Add Tag ..."} onKeyDown={onKeyDown} />
+                        {/* <button type={"submit"}>
+                            <FontAwesomeIcon icon={faPlus} />
+                        </button> */}
+                    {/* </form> */}
                 </div>
 
                 {/* tagEditor Button */}

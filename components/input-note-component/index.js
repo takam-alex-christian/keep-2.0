@@ -101,6 +101,10 @@ export default function InputNote(props) {
                         <textarea onChange={onBodyChange} className={styles.bodyInput} name="body" value={noteContent.body} placeholder="Take a note" />
                     </div>
 
+                    <div>
+                        <TagEditor />
+                    </div>
+
                     <div className={styles.buttonContainer}>
                         <button type="submit"><FontAwesomeIcon icon={faPlus} /></button>
                         <button type="button"><FontAwesomeIcon icon={faArrowsRotate} /></button>

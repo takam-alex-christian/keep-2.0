@@ -18,17 +18,21 @@
     position: relative;
     align-items: center;
     justify-content: center;
+    gap: 0.25rem;
     background-color: #33333344;
     height: 1.5rem;
     /* padding: 0.25rem 1rem; */
-    border-radius: 0.75rem;
+    border-radius: 0.5rem;
 
     font-size: 0.75rem;
 
-    min-width: 1rem;
+    padding: 0 0.875rem;
+    width:max-content;
+}
 
-    padding: 0 0.5rem;
-
+.tagComponent:hover {
+    /* background-color: red; */
+    justify-content: start;
 }
 
 .tagButtonContainer {}
@@ -38,12 +42,18 @@
     padding: 0;
     margin: 0;
     border:none;
+    width: fit-content;
+    min-width: 8rem;
 }
+.tagButtonContainer{
+    position: absolute;
+    right:2px;
 
+}
 .tagButtonContainer>button {
     display: flex;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.25rem;
+    height: 1.25rem;
     align-items: center;
     justify-content: center;
     border: none;
