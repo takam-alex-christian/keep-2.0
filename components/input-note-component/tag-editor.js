@@ -5,13 +5,11 @@ import { faClose, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import styles from './tag-editor.module.css'
 
-
-function TagEditor() {
+// expects a props.mode = 1 or 0
+// 1 for editing, 0 for displaying
+function TagEditor(props) {
 
     const inputId = useId()
-
-    //input tags 
-    const [tagList, setTagList] = useState(['hello', 'sample'])
 
     // tag input field state
     const [currentTagContent, setCurrentTagContent] = useState("")
@@ -22,18 +20,14 @@ function TagEditor() {
 
     const onKeyDown = (e) => {
 
-        if(e.key.toLowerCase() == 'enter' || e.key.toLowerCase() == 'tab'){
+        if (e.key.toLowerCase() == 'enter' || e.key.toLowerCase() == 'tab') {
             e.preventDefault()
-            setTagList((prev) => {
+            props.setTagList((prev) => {
                 return [...prev, currentTagContent]
             })
 
             setCurrentTagContent("")
         }
-
-        
-
-        
 
     }
 
@@ -44,7 +38,7 @@ function TagEditor() {
                 {/* tags */}
                 <div className={styles.tagListContainer}>
 
-                    {tagList.length > 0 && tagList.map((eachTag, index) => {
+                    {props.tagList && props.tagList.map((eachTag, index) => {
                         return (
                             <TagComponent key={index} content={eachTag} />
                         );
@@ -52,17 +46,19 @@ function TagEditor() {
 
                 </div>
 
-
-                <div className={` ${styles.tagInputContainer}`}>
-                    {/* the place holder */}
-                    {/* <form onSubmit={onFormSubmit}> */}
+                {props.mode &&
+                    <div className={` ${styles.tagInputContainer}`}>
+                        {/* the place holder */}
+                        {/* <form onSubmit={onFormSubmit}> */}
 
                         <input id={inputId} className={`${styles.tagInputField}`} type={"text"} onChange={onTagChange} value={currentTagContent} placeholder={"Add Tag ..."} onKeyDown={onKeyDown} />
                         {/* <button type={"submit"}>
                             <FontAwesomeIcon icon={faPlus} />
                         </button> */}
-                    {/* </form> */}
-                </div>
+                        {/* </form> */}
+                    </div>
+                }
+
 
                 {/* tagEditor Button */}
 
@@ -102,4 +98,4 @@ function TagComponent(props) {
 
 
 
-export {TagEditor, TagComponent}
+export { TagEditor, TagComponent }

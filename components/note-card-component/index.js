@@ -1,14 +1,11 @@
 
 import { useEffect, useState } from 'react'
 
-// tmp
-import { ContentBlock, Editor, EditorState } from 'draft-js'
-// import ''
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faClose, faPen, faFloppyDisk } from "@fortawesome/free-solid-svg-icons"
 
 import styles from './index.module.css'
+import { TagEditor } from '../input-note-component/tag-editor'
 
 
 
@@ -17,10 +14,9 @@ export default function NoteCard(props) {
     // the content of the Item
     const [note, setNote] = useState(props.noteContent)
 
-    // tmp states for editor
-    const [bodyEditorState, setBodyEditorState ] = useState(()=> EditorState.createEmpty())
+    //
 
-
+    const [tagList, setTagList] = useState(JSON.parse(props.noteContent.tags))
 
     // should show card buttons
     const [shouldShowButtons, setShowButtons] = useState(false)
@@ -31,6 +27,11 @@ export default function NoteCard(props) {
     // is the note deleted
     const [isNoteDeleted, setNoteDeleted] = useState(false);
 
+    // useEffect(()=>{
+    //     // setTagList(props.noteContent.tags)
+
+    //     console.log("the content of this note is ", JSON.parse(props.noteContent.tags))
+    // }, [])
 
     const onCardHover = () => { setShowButtons(true) }
     const onCardOut = () => { setShowButtons(false) }
@@ -142,6 +143,7 @@ export default function NoteCard(props) {
                         
                     </div>
                 </div>
+
                 {shouldShowButtons &&
                     <div className={styles.cardButtons}>
                         <button onClick={editNote}>
@@ -152,16 +154,12 @@ export default function NoteCard(props) {
                         </button>
                     </div>
                 }
+
                 { note.tags.length > 0 && 
+                    <>
                     
-                    <div className={""}>
-                        {JSON.parse( note.tags).map((tag, index)=>{
-                            return (
-                            <div key={index} className=''>
-                                {tag}
-                            </div>)
-                        })}
-                    </div>
+                    <TagEditor tagList={tagList} setTagList={setTagList} mode={isNoteBeingEdited} />
+                    </>
 
                 }
             </div>

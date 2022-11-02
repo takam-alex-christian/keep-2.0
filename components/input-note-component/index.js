@@ -50,6 +50,7 @@ export default function InputNote(props) {
         let urlencoded = new URLSearchParams();
         urlencoded.append("title", noteContent.title);
         urlencoded.append("body", noteContent.body);
+        urlencoded.append("tags", JSON.stringify(tagList))
 
         let requestOptions = {
             method: 'POST',
@@ -72,7 +73,12 @@ export default function InputNote(props) {
 
                         return [...prev];
                     })
+
+                    // reset form states
                     setNoteContent({ title: "", body: "" })
+                    
+                    setTagList([])
+
                     console.log("node added successfully")
 
 
@@ -102,7 +108,7 @@ export default function InputNote(props) {
                     </div>
 
                     <div>
-                        <TagEditor />
+                        <TagEditor tagList={tagList} setTagList={setTagList} />
                     </div>
 
                     <div className={styles.buttonContainer}>

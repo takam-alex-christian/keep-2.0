@@ -1,5 +1,6 @@
 require("dotenv").config()
 
+const { json } = require("body-parser")
 const express = require("express")
 
 const next = require("next")
@@ -26,7 +27,7 @@ nextApp.prepare().then(()=>{
     mongoose.connect(process.env.MONGODB_URI);
 
     // model
-    const noteSchema = new mongoose.Schema({title: String, body: String, date: String, tags: Array});
+    const noteSchema = new mongoose.Schema({title: String, body: String, date: String, tags: String});
     const Note = mongoose.model("Note", noteSchema);
 
     // getting notes
@@ -48,7 +49,7 @@ nextApp.prepare().then(()=>{
             
             // we populate the tags if there are in the request
             // i expect tags to be stringified
-            const tags = req.body.tags && req.body.tags.length > 0 ? req.body.tags : []
+            const tags = req.body.tags && req.body.tags.length > 0 ? req.body.tags : ''
 
             const newNote = new Note({title: req.body.title, body: req.body.body, tags: tags, date: noteDate});
             
