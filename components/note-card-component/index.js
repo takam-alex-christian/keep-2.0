@@ -14,9 +14,18 @@ export default function NoteCard(props) {
     // the content of the Item
     const [note, setNote] = useState(props.noteContent)
 
+    // setNote((prev) => {
+    //     return { ...prev, tags: JSON.parse(prev.tags) }
+    // })
+
+
     //
 
+
     const [tagList, setTagList] = useState(JSON.parse(props.noteContent.tags))
+
+    // update note when tagList changes
+    useEffect(()=>{setNote((prev)=>{return {...prev, tags: tagList}})}, [tagList])
 
     // should show card buttons
     const [shouldShowButtons, setShowButtons] = useState(false)
@@ -37,10 +46,6 @@ export default function NoteCard(props) {
     const onCardOut = () => { setShowButtons(false) }
 
     const onTitleChange = (e) => { setNote((prev) => { return { ...prev, title: e.target.value } }) }
-    
-    // works with the text area implementation
-    // const onBodyChange = (e) => { setNote((prev) => { return { ...prev, body: e.target.value } }) }
-
 
     const editNote = () => {
 
@@ -54,6 +59,7 @@ export default function NoteCard(props) {
             urlencoded.append("_id", note._id);
             urlencoded.append("title", note.title);
             urlencoded.append("body", note.body);
+            urlencoded.append("tags", JSON.stringify(note.tags))
             // just not needed yet
             // urlencoded.append("tags", note.tags? note.tags : [])
 
@@ -81,8 +87,6 @@ export default function NoteCard(props) {
             setEditState(true)
         }
     }
-    // const stopEditing = ()=> {setEditState(false)}
-
 
     const onDelete = () => {
         setNoteDeleted(true)
@@ -114,20 +118,30 @@ export default function NoteCard(props) {
     }
 
     // on body div input
-    const onBodyInput = (e)=>{
+    const onBodyInput = (e) => {
         // console.log("bodyHtml has changed: ", e);
-        setNote((prev)=>{
-            return {...prev, body: document.getElementById(note._id).innerText}
+        setNote((prev) => {
+            return { ...prev, body: document.getElementById(note._id).innerText }
         })
     }
 
 
+    // const setTagList = (tagList) => {
+    //     setNote((prev) => {
+    //         return { ...prev, tags: tagList }
+    //     })
+    // }
+
+    //displays content editable values
     useEffect(()=>{
         document.getElementById(note._id).innerText = note.body;
     },[])
 
+    // useEffect(()=>{
+    //     console.log(`note-card-component ${tagList}`)
+    // }, [tagList])
 
-    
+
 
 
     return (
@@ -140,7 +154,7 @@ export default function NoteCard(props) {
                 <div className={styles.bodyContainer}>
                     {/* <textarea  className={styles.cardBody} readOnly={!isNoteBeingEdited} onChange={onBodyChange} value={note.body} /> */}
                     <div id={note._id} onInput={onBodyInput} contentEditable={isNoteBeingEdited} suppressContentEditableWarning={true}>
-                        
+
                     </div>
                 </div>
 
@@ -155,10 +169,9 @@ export default function NoteCard(props) {
                     </div>
                 }
 
-                { note.tags.length > 0 && 
+                {note.tags.length > 0 &&
                     <>
-                    
-                    <TagEditor tagList={tagList} setTagList={setTagList} mode={isNoteBeingEdited} />
+                        <TagEditor tagList={tagList} setTagList={setTagList} mode={isNoteBeingEdited} />
                     </>
 
                 }

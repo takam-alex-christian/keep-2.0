@@ -17,17 +17,13 @@ export default function InputNote(props) {
     // was the note submited added ? 
     const [isNoteAdded, setNoteAdded] = useState(false);
 
-    // what was the response of the backend to the note?
-    const [noteResponse, setNoteResponse] = useState({});
+    // // what was the response of the backend to the note?
+    // const [noteResponse, setNoteResponse] = useState({});
 
 
 
-    // tags states
+    // list of tags
     const [tagList, setTagList] = useState([]);
-
-
-
-
 
     const onTitleChange = (e) => {
         setNoteContent((prev) => {
@@ -108,7 +104,7 @@ export default function InputNote(props) {
                     </div>
 
                     <div>
-                        <TagEditor tagList={tagList} setTagList={setTagList} />
+                        <TagEditor tagList={tagList} setTagList={setTagList} mode={true} />
                     </div>
 
                     <div className={styles.buttonContainer}>
@@ -122,9 +118,6 @@ export default function InputNote(props) {
                 </div>
 
             </form>
-
-         {/* temp, subjected to future edit. unsafe */}
-         {/* <TagEditor /> */}
 
         </div>
     )

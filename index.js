@@ -75,7 +75,7 @@ nextApp.prepare().then(()=>{
 
     // update note
     expressApp.put("/notes", (req, res)=>{
-        Note.findByIdAndUpdate(req.body._id, {$set: {title: req.body.title, body: req.body.body}}, (err, doc)=>{
+        Note.findByIdAndUpdate(req.body._id, {$set: {title: req.body.title, body: req.body.body, tags: req.body.tags}}, (err, doc)=>{
             res.json({message: "success"})
         })
     })

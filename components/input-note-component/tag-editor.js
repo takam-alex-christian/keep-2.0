@@ -9,9 +9,13 @@ import styles from './tag-editor.module.css'
 // 1 for editing, 0 for displaying
 function TagEditor(props) {
 
-    const inputId = useId()
+    // localCopy of the tagList to fix display issues
+    const [localTagList, setLocalTagList] = useState([])
+    
+    useEffect(()=>{ setLocalTagList(props.tagList)}, [])
 
     // tag input field state
+    // display this instead
     const [currentTagContent, setCurrentTagContent] = useState("")
 
     const onTagChange = (e) => {
@@ -22,12 +26,42 @@ function TagEditor(props) {
 
         if (e.key.toLowerCase() == 'enter' || e.key.toLowerCase() == 'tab') {
             e.preventDefault()
+            // for the parent component
             props.setTagList((prev) => {
                 return [...prev, currentTagContent]
             })
 
+            // for display through Array.prototype.map
+            setLocalTagList((prev) => {
+                prev.push(currentTagContent);
+                return prev;
+            })
+
             setCurrentTagContent("")
         }
+
+    }
+
+    const onTagDelete = (tagContent) => {
+
+        let newArray = localTagList.filter((value) => {
+            return value != tagContent
+        })
+
+
+        props.setTagList(newArray)
+
+        // the display tagList
+        // this is a temporary solution to changing array sizes due to the filter function
+        setLocalTagList((prev)=>{
+            
+            let indexOfTagContent = prev.findIndex((value)=>{return value == tagContent});
+            prev[indexOfTagContent] = 'x';
+
+            // console.log(prev)
+
+            return prev;
+        })
 
     }
 
@@ -36,13 +70,26 @@ function TagEditor(props) {
 
             <div className={` ${styles.tagEditorContainer}`}>
                 {/* tags */}
-                <div className={styles.tagListContainer}>
+                <div className={styles.tagListContainer} >
 
-                    {props.tagList && props.tagList.map((eachTag, index) => {
+                    {localTagList && localTagList.map((tag, index) => {
                         return (
-                            <TagComponent key={index} content={eachTag} />
+                            tag != "x" && <TagComponent key={index} content={tag} onDelete={onTagDelete} />
                         );
                     })}
+
+                    {/* {
+                        useEffect(() => {
+                            if (localTagList) {
+                                localTagList.map((eachTag, index) => {
+                                    return (
+                                        <TagComponent key={index} content={eachTag} onDelete={onTagDelete} />
+                                    );
+                                })
+                            }
+
+                        }, [localTagList])
+                    } */}
 
                 </div>
 
@@ -51,7 +98,7 @@ function TagEditor(props) {
                         {/* the place holder */}
                         {/* <form onSubmit={onFormSubmit}> */}
 
-                        <input id={inputId} className={`${styles.tagInputField}`} type={"text"} onChange={onTagChange} value={currentTagContent} placeholder={"Add Tag ..."} onKeyDown={onKeyDown} />
+                        <input className={`${styles.tagInputField}`} type={"text"} onChange={onTagChange} value={currentTagContent} placeholder={"Add Tag ..."} onKeyDown={onKeyDown} />
                         {/* <button type={"submit"}>
                             <FontAwesomeIcon icon={faPlus} />
                         </button> */}
@@ -74,6 +121,8 @@ function TagComponent(props) {
 
     const [shouldShowButton, setShouldShowButton] = useState(false);
 
+    // tag content
+    const [tagContent, setTagContent] = useState(props.content)
 
     const onMouseOver = (e) => { setShouldShowButton(true); }
 
@@ -82,10 +131,11 @@ function TagComponent(props) {
     return (
         <div onMouseOver={onMouseOver} onMouseOut={onMouseOut} className={` ${styles.tagComponent}`}>
 
-            {props.content}
+            {tagContent}
+
             {shouldShowButton &&
                 <div className={`${styles.tagButtonContainer}`}>
-                    <button>
+                    <button onClick={() => { props.onDelete(tagContent) }} >
                         <FontAwesomeIcon icon={faClose} />
                     </button>
                 </div>
