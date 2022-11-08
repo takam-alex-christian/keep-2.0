@@ -4,15 +4,33 @@ import { faPlus, faArrowsRotate, faClose } from "@fortawesome/free-solid-svg-ico
 
 // importing custom module styles
 import styles from './index.module.css'
-import { useState } from "react"
+import { useState, useId, useEffect } from "react"
 
 // custom components
 import { TagEditor } from './tag-editor'
 
 export default function InputNote(props) {
 
+    const ids = {
+        titleEditor: useId(),
+        bodyEditor: useId()
+    };
+
+
     // new note content
     const [noteContent, setNoteContent] = useState({ title: "", body: "" })
+
+    const [isBeingEdited, setIsBeingEdited] = useState({
+        title: false,
+        body: false,
+        tags: false
+    })
+
+    useEffect(() => {
+        console.log("title: ", ids.titleEditor)
+        console.log("body: ", ids.bodyEditor)
+
+    }, [])
 
     // was the note submited added ? 
     const [isNoteAdded, setNoteAdded] = useState(false);
@@ -26,15 +44,50 @@ export default function InputNote(props) {
     const [tagList, setTagList] = useState([]);
 
     const onTitleChange = (e) => {
+
+
         setNoteContent((prev) => {
-            return { ...prev, title: e.target.value }
-        });
+            return { ...prev, title: e.target.innerText }
+        })
+
+        // e.target.innerText seems to work better than noteContent.body
+        if (isBeingEdited.title == false && e.target.innerText != '') {
+
+            setIsBeingEdited((prev) => {
+                return { ...prev, title: true };
+            })
+
+        } else if (e.target.innerText == '') {
+
+            setIsBeingEdited((prev) => {
+                return { ...prev, title: false };
+            })
+
+        }
+
     }
 
     const onBodyChange = (e) => {
+
         setNoteContent((prev) => {
-            return { ...prev, body: e.target.value }
+            return { ...prev, body: e.target.innerText }
         })
+
+        // e.target.innerText seems to work better than noteContent.body
+        if (isBeingEdited.body == false && e.target.innerText != '') {
+
+            setIsBeingEdited((prev) => {
+                return { ...prev, body: true };
+            })
+
+        } else if (e.target.innerText == '') {
+
+            setIsBeingEdited((prev) => {
+                return { ...prev, body: false };
+            })
+
+        }
+
     }
 
     const submitNewNote = (e) => {
@@ -72,7 +125,7 @@ export default function InputNote(props) {
 
                     // reset form states
                     setNoteContent({ title: "", body: "" })
-                    
+
                     setTagList([])
 
                     console.log("node added successfully")
@@ -91,16 +144,43 @@ export default function InputNote(props) {
     }
 
     return (
-        <div className={styles.inputNoteContainer}>
+        <div className={`p-4 border rounded-lg`}>
             <form action="/notes" method="POST" onSubmit={submitNewNote}>
-                <div className={styles.formContainer}>
+                <div className={`flex flex-col gap-4`}>
 
-                    <div className={styles.titleContainer}>
-                        <input onChange={onTitleChange} className={styles.titleInput} name="title" type="text" value={noteContent.title} placeholder="Title here" />
+                    <div className={`flex flex-col text-lg font-medium`}>
+
+                        {!isBeingEdited.title &&
+                            <div className={`absolute text-gray-400 `}>Title</div>
+                        }
+
+                        {/* <input onChange={onTitleChange} className={styles.titleInput} name="title" type="text" value={noteContent.title} placeholder="Title here" /> */}
+                        <div
+                            id={ids.titleEditor}
+
+                            onInput={onTitleChange}
+
+                            contentEditable={true}
+
+                            suppressContentEditableWarning={true}
+
+                            name="title"
+
+                            className={`z-10 font-text`}></div>
                     </div>
 
-                    <div className={styles.bodyContainer}>
-                        <textarea onChange={onBodyChange} className={styles.bodyInput} name="body" value={noteContent.body} placeholder="Take a note" />
+                    <div className={'flex flex-col text-base font-normal'}>
+                        {/* <textarea onChange={onBodyChange} className={styles.bodyInput} name="body" value={noteContent.body} placeholder="Take a note" /> */}
+                        {/* body editor placeholder */}
+
+                        {!isBeingEdited.body &&
+                            <div className={` absolute text-gray-400`}>
+                                Take a note
+                            </div>
+                        }
+
+                        <div id={ids.bodyEditor} contentEditable={true} suppressContentEditableWarning={true} onInput={onBodyChange} name={"body"} className={`z-10 font-text`}>
+                        </div>
                     </div>
 
                     <div>
@@ -108,7 +188,7 @@ export default function InputNote(props) {
                     </div>
 
                     <div className={styles.buttonContainer}>
-                        <button type="submit"><FontAwesomeIcon icon={faPlus} /></button>
+                        <button type="submit" className={`bg-indigo-700 text-gray-100 hover:bg-sky-700`}><FontAwesomeIcon icon={faPlus} /></button>
                         <button type="button"><FontAwesomeIcon icon={faArrowsRotate} /></button>
 
                         <div className={styles.alertContainer}>

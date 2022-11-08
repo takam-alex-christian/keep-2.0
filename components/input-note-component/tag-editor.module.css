@@ -1,4 +1,4 @@
-.tagEditorContainer {
+/* .tagEditorContainer {
     display: flex;
 
 }
@@ -11,46 +11,46 @@
 .tagInputContainer {
     padding: 0 0.5rem;
 
-}
+} */
 
-.tagComponent {
-    display: flex;
+/* .tagComponent {
+    /* display: flex;
     position: relative;
     align-items: center;
     justify-content: center;
     gap: 0.25rem;
     background-color: #33333344;
     height: 1.5rem;
-    /* padding: 0.25rem 1rem; */
+
     border-radius: 0.5rem;
 
     font-size: 0.75rem;
 
     padding: 0 0.875rem;
-    width:max-content;
-}
+    width:max-content; 
+} */
 
-.tagComponent:hover {
-    /* background-color: red; */
+/* .tagComponent:hover {
+    /* background-color: red; 
     justify-content: start;
-}
+} */
 
-.tagButtonContainer {}
-.tagInputField{
-    height: 1.5rem;
+
+/* .tagInputField{
+    height: 1.5rem; */
     /* border-radius:7.5rem; */
-    padding: 0;
+    /* padding: 0;
     margin: 0;
     border:none;
     width: fit-content;
     min-width: 8rem;
-}
-.tagButtonContainer{
+} */
+/* .tagButtonContainer{
     position: absolute;
     right:2px;
 
-}
-.tagButtonContainer>button {
+} */
+/* .tagButtonContainer>button {
     display: flex;
     width: 1.25rem;
     height: 1.25rem;
@@ -62,4 +62,4 @@
     color: #ffffffbb;
 
     cursor: pointer;
-}
+} */

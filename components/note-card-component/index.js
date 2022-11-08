@@ -11,6 +11,7 @@ import { TagEditor } from '../input-note-component/tag-editor'
 
 export default function NoteCard(props) {
 
+
     // the content of the Item
     const [note, setNote] = useState(props.noteContent)
 
@@ -25,7 +26,7 @@ export default function NoteCard(props) {
     const [tagList, setTagList] = useState(JSON.parse(props.noteContent.tags))
 
     // update note when tagList changes
-    useEffect(()=>{setNote((prev)=>{return {...prev, tags: tagList}})}, [tagList])
+    useEffect(() => { setNote((prev) => { return { ...prev, tags: tagList } }) }, [tagList])
 
     // should show card buttons
     const [shouldShowButtons, setShowButtons] = useState(false)
@@ -45,7 +46,7 @@ export default function NoteCard(props) {
     const onCardHover = () => { setShowButtons(true) }
     const onCardOut = () => { setShowButtons(false) }
 
-    const onTitleChange = (e) => { setNote((prev) => { return { ...prev, title: e.target.value } }) }
+    const onTitleChange = (e) => { setNote((prev) => { return { ...prev, title: e.target.innerText } }) }
 
     const editNote = () => {
 
@@ -121,7 +122,7 @@ export default function NoteCard(props) {
     const onBodyInput = (e) => {
         // console.log("bodyHtml has changed: ", e);
         setNote((prev) => {
-            return { ...prev, body: document.getElementById(note._id).innerText }
+            return { ...prev, body: e.target.innerText }
         })
     }
 
@@ -133,9 +134,11 @@ export default function NoteCard(props) {
     // }
 
     //displays content editable values
-    useEffect(()=>{
-        document.getElementById(note._id).innerText = note.body;
-    },[])
+    useEffect(() => {
+        document.getElementById(note._id + "title").innerText = note.title;
+        document.getElementById(note._id + "body").innerText = note.body;
+
+    }, [])
 
     // useEffect(()=>{
     //     console.log(`note-card-component ${tagList}`)
@@ -146,24 +149,42 @@ export default function NoteCard(props) {
 
     return (
 
-        <>
-            {!isNoteDeleted && <div className={styles.noteCardContainer} onMouseOver={onCardHover} onMouseOut={onCardOut}>
-                <div className={styles.titleContainer}>
-                    <input type="text" className={styles.cardTitle} readOnly={!isNoteBeingEdited} onChange={onTitleChange} value={note.title} />
+        <div className={`w-100 `}>
+
+            {!isNoteDeleted && <div className={`p-4 flex flex-col gap-4 border rounded-lg`} onMouseOver={onCardHover} onMouseOut={onCardOut}>
+
+                <div className={``} >
+                    {/* <input type="text" className={styles.cardTitle} readOnly={!isNoteBeingEdited} onChange={onTitleChange} value={note.title} /> */}
+
+                    <div
+                        id={note._id + "title"}
+
+                        readOnly={!isNoteBeingEdited}
+
+                        onInput={onTitleChange}
+
+                        contentEditable={isNoteBeingEdited}
+
+                        suppressContentEditableWarning={true}
+                        
+                        className={` text-xl font-semibold`}
+                    ></div>
+
                 </div>
+
                 <div className={styles.bodyContainer}>
                     {/* <textarea  className={styles.cardBody} readOnly={!isNoteBeingEdited} onChange={onBodyChange} value={note.body} /> */}
-                    <div id={note._id} onInput={onBodyInput} contentEditable={isNoteBeingEdited} suppressContentEditableWarning={true}>
-
+                    <div id={note._id + "body"} onInput={onBodyInput} contentEditable={isNoteBeingEdited} suppressContentEditableWarning={true}>
+                        {/* {note.body} */}
                     </div>
                 </div>
 
                 {shouldShowButtons &&
-                    <div className={styles.cardButtons}>
-                        <button onClick={editNote}>
+                    <div className={`${styles.cardButtons} group`}>
+                        <button className={`group-hover:text-teal-700`} onClick={editNote}>
                             <FontAwesomeIcon icon={isNoteBeingEdited ? faFloppyDisk : faPen} />
                         </button>
-                        <button onClick={onDelete}>
+                        <button className={`group-hover:text-red-400`} onClick={onDelete}>
                             <FontAwesomeIcon icon={faClose} />
                         </button>
                     </div>
@@ -177,7 +198,7 @@ export default function NoteCard(props) {
                 }
             </div>
             }
-        </>
+        </div>
 
 
     )

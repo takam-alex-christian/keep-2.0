@@ -6,8 +6,11 @@ export default function sampleCard(){
     const [content, setContent] = useState({title: "default title", body: "default body"})
     return (
     <> 
-    <TagEditor />
-    
-    
+        <textarea onInput={(e)=>{
+            console.log("simple height: ", e.target.scrollHeight);
+            e.target.style.height = e.target.scrollHeight;
+        }} style={{'height': 'auto'}} >
+
+        </textarea>
     </>)
 }

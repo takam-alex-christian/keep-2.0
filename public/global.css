@@ -1,5 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
+
+@tailwind base; 
+@tailwind components;
+@tailwind utilities; 
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700;900&display=swap');
+
+@layer base{
+    html{
+        /* font-family: "Poppins"; */
+        @apply font-ui
+    }
+    
+    body, h1,h2,h3,h4,h5,h6, p, input, div, span{
+        @apply font-ui text-gray-700
+    }
+}
 
 .container{
     display: block;
