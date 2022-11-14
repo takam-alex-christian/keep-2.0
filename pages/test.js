@@ -2,15 +2,28 @@ import { useState } from "react"
 
 import {TagEditor} from "../components/input-note-component/tag-editor"
 
+
+import styles from './index.module.css'
+
 export default function sampleCard(){
     const [content, setContent] = useState({title: "default title", body: "default body"})
     return (
     <> 
-        <textarea onInput={(e)=>{
-            console.log("simple height: ", e.target.scrollHeight);
-            e.target.style.height = e.target.scrollHeight;
-        }} style={{'height': 'auto'}} >
+    <div className={styles.test}>
+        <div>
+            left
+        </div>
+        <div>
+            main
+        </div>
 
-        </textarea>
+        <div>
+            left
+        </div>
+        <div>
+            main
+        </div>
+    </div>
+       
     </>)
 }
